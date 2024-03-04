@@ -1,0 +1,67 @@
+* {
+    outline: 1px solid tomato;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-color:  #1b3e4b;
+    font-size: 2rem;
+}
+
+header {
+   padding: 30px;
+   display: block;
+   text-align: center;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+  
+footer {
+    display: flex;
+    justify-content: center;
+}
+  
+.buttons {
+    display: flex;
+    flex-direction: column;
+}
+  
+#box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    background-color: white;
+    width: 500px;
+    height: 500px;
+    border: 10px;
+    border: solid black;
+    animation-name: example;
+}
+
+
+
+#box div:hover {
+    background-color: black;
+}
+
+
+
+
+  
+
+ 
+
+
+
+
+
