@@ -38,8 +38,8 @@ footer {
   
 #box {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     background-color: white;
     width: 500px;
     height: 500px;
@@ -53,6 +53,10 @@ footer {
     background-color: black;
 }
 
+#sizing {
+    display: flex;
+    flex-direction: column;
+}
 
 
 

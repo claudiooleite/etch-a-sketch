@@ -2,7 +2,8 @@
 
 let box = document.querySelector('#box');
 let mouseDown = false;
-let sizing = document.querySelector('#customRange2')
+let sizing = document.querySelector('#customRange2');
+let clear = document.getElementById('clear btn');
 
 // Event delegation 
 
@@ -44,8 +45,21 @@ function createDiv(size) {
 // Example usage with size 16
 // createDiv(100);
 
-// sizing btn
+// sizing slider
 
 sizing.addEventListener('input', (e)=>{
     createDiv(e.target.value)
 });
+
+// Clear btn
+
+clear.addEventListener('click', function() {
+    const children = box.querySelectorAll('.newDiv');
+
+    // Iterate over each child element and change its background color
+    children.forEach(child => {
+        child.style.backgroundColor = 'white';
+    });
+});
+
+
