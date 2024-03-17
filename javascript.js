@@ -4,6 +4,8 @@ let box = document.querySelector('#box');
 let mouseDown = false;
 let sizing = document.querySelector('#customRange2');
 let clear = document.getElementById('clear btn');
+let eraser = document.getElementById('btn-check-2-outlined');
+const children = box.querySelectorAll('.newDiv');
 
 // Event delegation 
 
@@ -42,9 +44,6 @@ function createDiv(size) {
     }
 }
 
-// Example usage with size 16
-// createDiv(100);
-
 // sizing slider
 
 sizing.addEventListener('input', (e)=>{
@@ -52,14 +51,54 @@ sizing.addEventListener('input', (e)=>{
 });
 
 // Clear btn
-
 clear.addEventListener('click', function() {
-    const children = box.querySelectorAll('.newDiv');
-
     // Iterate over each child element and change its background color
     children.forEach(child => {
         child.style.backgroundColor = 'white';
     });
 });
+
+// Eraser Btn 
+let eraserMode = false;
+
+// Event listener for the eraser button
+document.getElementById('btn-check-2-outlined').addEventListener('click', function() {
+    // Toggle the eraser mode
+    eraserMode = !eraserMode;
+
+    // If eraser mode is enabled, change the event listeners to act as an eraser
+    if (eraserMode) {
+        box.addEventListener('mousedown', eraserMouseDown);
+        box.addEventListener('mouseup', eraserMouseUp);
+        box.addEventListener('mouseover', eraserMouseOver);
+    } else {
+        // If eraser mode is disabled, revert back to the original behavior
+        box.removeEventListener('mousedown', eraserMouseDown);
+        box.removeEventListener('mouseup', eraserMouseUp);
+        box.removeEventListener('mouseover', eraserMouseOver);
+    }
+});
+
+// Event listener functions for eraser mode
+function eraserMouseDown(e) {
+    mouseDown = true;
+
+    if (e.target.classList.contains('newDiv')) {
+        e.target.style.backgroundColor = 'white'; // Change to white for eraser
+    }
+}
+
+function eraserMouseUp() {
+    mouseDown = false;
+}
+
+function eraserMouseOver(e) {
+    if (mouseDown && e.target.classList.contains('newDiv')) {
+        e.target.style.backgroundColor = 'white'; // Change to white for eraser
+    }
+}
+///////
+
+
 
 
