@@ -6,14 +6,14 @@ let sizing = document.querySelector('#customRange2');
 let clear = document.getElementById('clear btn');
 let eraser = document.getElementById('btn-check-2-outlined');
 const children = box.querySelectorAll('.newDiv');
-
+let currentColor = 'black'
 // Event delegation 
 
 box.addEventListener('mousedown', function (e) {
     mouseDown = true;
 
     if (e.target.classList.contains('newDiv')) {
-        e.target.style.backgroundColor = 'black';
+        e.target.style.backgroundColor = currentColor;
     }
 });
 
@@ -23,7 +23,7 @@ box.addEventListener('mouseup', function () {
 
 box.addEventListener('mouseover', function (e) {
     if (mouseDown && e.target.classList.contains('newDiv')) {
-        e.target.style.backgroundColor = 'black';
+        e.target.style.backgroundColor = currentColor;
     }
 });
 
@@ -58,46 +58,32 @@ clear.addEventListener('click', function() {
     });
 });
 
-// Eraser Btn 
+// Eraser Btn
 let eraserMode = false;
 
 // Event listener for the eraser button
 document.getElementById('btn-check-2-outlined').addEventListener('click', function() {
-    // Toggle the eraser mode
+    // Toggle the eraser mode 
     eraserMode = !eraserMode;
-
-    // If eraser mode is enabled, change the event listeners to act as an eraser
     if (eraserMode) {
-        box.addEventListener('mousedown', eraserMouseDown);
-        box.addEventListener('mouseup', eraserMouseUp);
-        box.addEventListener('mouseover', eraserMouseOver);
+        currentColor = 'white';
     } else {
-        // If eraser mode is disabled, revert back to the original behavior
-        box.removeEventListener('mousedown', eraserMouseDown);
-        box.removeEventListener('mouseup', eraserMouseUp);
-        box.removeEventListener('mouseover', eraserMouseOver);
+        currentColor = 'black'
     }
 });
 
-// Event listener functions for eraser mode
-function eraserMouseDown(e) {
-    mouseDown = true;
 
-    if (e.target.classList.contains('newDiv')) {
-        e.target.style.backgroundColor = 'white'; // Change to white for eraser
-    }
-}
+// Select color
+const colorPicker = document.getElementById("color-picker");
 
-function eraserMouseUp() {
-    mouseDown = false;
-}
+colorPicker.addEventListener("input", function(e) {
+    
+    const selectedColor = e.target.value;
+    currentColor = selectedColor;
+    
+});
 
-function eraserMouseOver(e) {
-    if (mouseDown && e.target.classList.contains('newDiv')) {
-        e.target.style.backgroundColor = 'white'; // Change to white for eraser
-    }
-}
-///////
+
 
 
 
