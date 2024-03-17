@@ -11,11 +11,14 @@
     <main>
         <div class="main">
                 <div class="buttons">
-                    <button>Color Change</button>
-                    <button>Rainbow mode</button>
-                    <button>Eraser</button>
-                    <button>Clear</button>
-                    <button>change Size</button>
+                    <button id="color-change btn">Color Change</button>
+                    <button id="random-color btn">Rainbow mode</button>
+                    <button id="eraser btn">Eraser</button>
+                    <button id="clear btn">Clear</button>
+                    <div id="sizing">
+                        <label for="customRange2" class="form-label">Mouse Size</label>
+                        <input type="range" class="form-range" min="4" max="100" id="customRange2" value="4" step="5">
+                    </div>
                 </div>
                 <div id="box">
                     <div class="newDiv"></div>

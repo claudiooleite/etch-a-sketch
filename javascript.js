@@ -2,6 +2,7 @@
 
 let box = document.querySelector('#box');
 let mouseDown = false;
+let sizing = document.querySelector('#customRange2')
 
 // Event delegation 
 
@@ -41,5 +42,10 @@ function createDiv(size) {
 }
 
 // Example usage with size 16
-createDiv(100);
+// createDiv(100);
 
+// sizing btn
+
+sizing.addEventListener('input', (e)=>{
+    createDiv(e.target.value)
+});
