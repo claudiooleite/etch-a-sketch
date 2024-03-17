@@ -6,7 +6,8 @@ let sizing = document.querySelector('#customRange2');
 let clear = document.getElementById('clear btn');
 let eraser = document.getElementById('btn-check-2-outlined');
 const children = box.querySelectorAll('.newDiv');
-let currentColor = 'black'
+let currentColor = 'black';
+
 // Event delegation 
 
 box.addEventListener('mousedown', function (e) {
@@ -79,9 +80,46 @@ const colorPicker = document.getElementById("color-picker");
 colorPicker.addEventListener("input", function(e) {
     
     const selectedColor = e.target.value;
+    console.log(selectedColor);
     currentColor = selectedColor;
     
 });
+
+// Rainbow mode
+
+function generateRandomColor(){
+    let maxVal = 0xFFFFFF; 
+    let randomNumber = Math.random() * maxVal; 
+    randomNumber = Math.floor(randomNumber);
+    randomNumber = randomNumber.toString(16);
+    let randColor = randomNumber.padStart(6, 0);   
+    return `#${randColor.toUpperCase()}`
+}
+
+
+const rainbowMode = document.getElementById("random-color btn");
+rainbowMode.addEventListener('click', function(){
+    currentColor = generateRandomColor();
+    
+    box.addEventListener('mousedown', function (e) {
+        mouseDown = true;
+    
+        if (e.target.classList.contains('newDiv')) {
+            e.target.style.backgroundColor = currentColor;
+        }
+    });
+    
+    box.addEventListener('mouseup', function () {
+        mouseDown = false;
+    });
+    
+    box.addEventListener('mouseover', function (e) {
+        if (mouseDown && e.target.classList.contains('newDiv')) {
+            e.target.style.backgroundColor = currentColor;
+        }
+    });
+    
+})
 
 
 
