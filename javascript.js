@@ -77,12 +77,9 @@ document.getElementById('btn-check-2-outlined').addEventListener('click', functi
 // Select color
 const colorPicker = document.getElementById("color-picker");
 
-colorPicker.addEventListener("input", function(e) {
-    
+colorPicker.addEventListener("input", function(e) {  
     const selectedColor = e.target.value;
-    console.log(selectedColor);
     currentColor = selectedColor;
-    
 });
 
 // Rainbow mode
@@ -96,28 +93,41 @@ function generateRandomColor(){
     return `#${randColor.toUpperCase()}`
 }
 
-
+const rainbowBtn = false;
 const rainbowMode = document.getElementById("random-color btn");
 rainbowMode.addEventListener('click', function(){
-    currentColor = generateRandomColor();
-    
-    box.addEventListener('mousedown', function (e) {
-        mouseDown = true;
-    
-        if (e.target.classList.contains('newDiv')) {
-            e.target.style.backgroundColor = currentColor;
-        }
-    });
-    
-    box.addEventListener('mouseup', function () {
-        mouseDown = false;
-    });
-    
-    box.addEventListener('mouseover', function (e) {
-        if (mouseDown && e.target.classList.contains('newDiv')) {
-            e.target.style.backgroundColor = currentColor;
-        }
-    });
+    rainbowBtn = !rainbowBtn;
+
+    if(rainbowBtn){
+        currentColor = generateRandomColor();
+        
+        box.addEventListener('mousemove', function(e){
+            // Generate a random color
+            const currentColor = generateRandomColor();
+            
+            // Check if the mouse button is pressed
+            if (mouseDown) {
+                // Change the background color of the hovered element to the random color
+                if (e.target.classList.contains('newDiv')) {
+                    e.target.style.backgroundColor = currentColor;
+                }
+            }
+        });
+        
+        // Define a variable to track mouse button state
+        let mouseDown = false;
+        
+        // Add event listeners for mouse down and mouse up events on the document
+        document.addEventListener('mousedown', function () {
+            mouseDown = true;
+        });
+        
+        document.addEventListener('mouseup', function () {
+            mouseDown = false;
+        });
+    } else {
+        currentColor = 'black';
+    }
     
 })
 

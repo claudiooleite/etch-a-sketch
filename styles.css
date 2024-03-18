@@ -50,9 +50,6 @@ footer {
 
 
 
-#box div:hover {
-    background-color: black;
-}
 
 #sizing {
     display: flex;
