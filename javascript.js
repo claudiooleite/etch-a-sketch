@@ -5,8 +5,8 @@ let mouseDown = false;
 const sizing = document.querySelector('#customRange2');
 const clear = document.getElementById('clear btn');
 const eraser = document.getElementById('btn-check-2-outlined');
-const children = box.querySelectorAll('.newDiv');
 const colorPicker = document.getElementById("color-picker");
+const rainbowMode = document.getElementById("random-color btn");
 let currentColor = 'black';
 
 // Event delegation 
@@ -83,11 +83,32 @@ function toggleEraserMode() {
 // Select color
 colorPicker.addEventListener("input", function(e) { 
     removeRainbowMode(); 
-    const selectedColor = e.target.value;
-    currentColor = selectedColor;
+    currentColor = e.target.value;
 });
 
 // Rainbow mode
+
+// Function to handle rainbow mode
+rainbowMode.addEventListener('click', function(){
+    handleRainbowMode();
+});
+
+function handleRainbowMode() {
+    box.addEventListener('mousemove', handleMouseMove);
+}
+
+// Function to remove rainbow mode
+function removeRainbowMode() {
+    box.removeEventListener('mousemove', handleMouseMove);
+}
+
+
+function handleMouseMove(event) {
+    const currentColor = generateRandomColor();
+    if (mouseDown && event.target.classList.contains('newDiv')) {
+            event.target.style.backgroundColor = currentColor;
+    }
+}
 
 function generateRandomColor(){
     let maxVal = 0xFFFFFF; 
@@ -97,39 +118,6 @@ function generateRandomColor(){
     let randColor = randomNumber.padStart(6, 0);   
     return `#${randColor.toUpperCase()}`
 }
-
-
-// Function to handle rainbow mode
-function handleRainbowMode() {
-    // Add event listener for mousemove on the box only when rainbow mode is active
-    box.addEventListener('mousemove', handleMouseMove);
-}
-
-// Function to remove rainbow mode
-function removeRainbowMode() {
-    // Remove event listener for mousemove on the box
-    box.removeEventListener('mousemove', handleMouseMove);
-}
-
-const rainbowMode = document.getElementById("random-color btn");
-rainbowMode.addEventListener('click', function(){
-    // Add event listener for mousemove on the box only when rainbow mode is active
-    handleRainbowMode();
-});
-
-function handleMouseMove(event) {
-    // Generate a random color
-    const currentColor = generateRandomColor();
-    
-    // Check if the mouse button is pressed
-    if (mouseDown) {
-        // Change the background color of the hovered element to the random color
-        if (event.target.classList.contains('newDiv')) {
-            event.target.style.backgroundColor = currentColor;
-        }
-    }
-}
-
 
 
 
