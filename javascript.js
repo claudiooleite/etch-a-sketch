@@ -1,43 +1,43 @@
 
 
-let box = document.querySelector('#box');
+const box = document.querySelector('#box');
 let mouseDown = false;
-let sizing = document.querySelector('#customRange2');
-let clear = document.getElementById('clear btn');
-let eraser = document.getElementById('btn-check-2-outlined');
+const sizing = document.querySelector('#customRange2');
+const clear = document.getElementById('clear btn');
+const eraser = document.getElementById('btn-check-2-outlined');
 const children = box.querySelectorAll('.newDiv');
+const colorPicker = document.getElementById("color-picker");
 let currentColor = 'black';
 
 // Event delegation 
 
-box.addEventListener('mousedown', function (e) {
+function handleMouseDown(e) {
     mouseDown = true;
-
     if (e.target.classList.contains('newDiv')) {
         e.target.style.backgroundColor = currentColor;
     }
-});
+}
 
-box.addEventListener('mouseup', function () {
+function handleMouseUp() {
     mouseDown = false;
-});
+}
 
-box.addEventListener('mouseover', function (e) {
+function handleMouseOver(e) {
     if (mouseDown && e.target.classList.contains('newDiv')) {
         e.target.style.backgroundColor = currentColor;
     }
-});
+}
 
+box.addEventListener('mousedown', handleMouseDown);
+box.addEventListener('mouseup', handleMouseUp);
+box.addEventListener('mouseover', handleMouseOver);
 
-// changing box size
+// Create divs based on size
 function createDiv(size) {
     box.style.gridTemplateColumns = `repeat(${size / 2}, 1fr)`;
     box.style.gridTemplateRows = `repeat(${size / 2}, 1fr)`;
-
-    // Clear existing content
     box.innerHTML = '';
     let resized = size **2;
-    // Add new divs with the class 'newDiv'
     for (let i = 1; i <= resized; i++) {
         const newDiv = document.createElement('div');
         newDiv.className = 'newDiv';
@@ -53,31 +53,36 @@ sizing.addEventListener('input', (e)=>{
 
 // Clear btn
 clear.addEventListener('click', function() {
-    // Iterate over each child element and change its background color
+    removeRainbowMode();
+    clearBox();
+});
+
+function clearBox(){
+    const children = box.querySelectorAll('.newDiv');
     children.forEach(child => {
         child.style.backgroundColor = 'white';
     });
-});
+}
 
 // Eraser Btn
-let eraserMode = false;
 
 // Event listener for the eraser button
-document.getElementById('btn-check-2-outlined').addEventListener('click', function() {
-    // Toggle the eraser mode 
-    eraserMode = !eraserMode;
-    if (eraserMode) {
-        currentColor = 'white';
-    } else {
-        currentColor = 'black'
-    }
+eraser.addEventListener('click', () => {
+    removeRainbowMode();
+    toggleEraserMode();
 });
+
+let eraserMode = false;
+
+function toggleEraserMode() {
+    eraserMode = !eraserMode;
+    currentColor = eraserMode ? 'white' : 'black';
+}
 
 
 // Select color
-const colorPicker = document.getElementById("color-picker");
-
-colorPicker.addEventListener("input", function(e) {  
+colorPicker.addEventListener("input", function(e) { 
+    removeRainbowMode(); 
     const selectedColor = e.target.value;
     currentColor = selectedColor;
 });
@@ -93,45 +98,37 @@ function generateRandomColor(){
     return `#${randColor.toUpperCase()}`
 }
 
-const rainbowBtn = false;
+
+// Function to handle rainbow mode
+function handleRainbowMode() {
+    // Add event listener for mousemove on the box only when rainbow mode is active
+    box.addEventListener('mousemove', handleMouseMove);
+}
+
+// Function to remove rainbow mode
+function removeRainbowMode() {
+    // Remove event listener for mousemove on the box
+    box.removeEventListener('mousemove', handleMouseMove);
+}
+
 const rainbowMode = document.getElementById("random-color btn");
 rainbowMode.addEventListener('click', function(){
-    rainbowBtn = !rainbowBtn;
+    // Add event listener for mousemove on the box only when rainbow mode is active
+    handleRainbowMode();
+});
 
-    if(rainbowBtn){
-        currentColor = generateRandomColor();
-        
-        box.addEventListener('mousemove', function(e){
-            // Generate a random color
-            const currentColor = generateRandomColor();
-            
-            // Check if the mouse button is pressed
-            if (mouseDown) {
-                // Change the background color of the hovered element to the random color
-                if (e.target.classList.contains('newDiv')) {
-                    e.target.style.backgroundColor = currentColor;
-                }
-            }
-        });
-        
-        // Define a variable to track mouse button state
-        let mouseDown = false;
-        
-        // Add event listeners for mouse down and mouse up events on the document
-        document.addEventListener('mousedown', function () {
-            mouseDown = true;
-        });
-        
-        document.addEventListener('mouseup', function () {
-            mouseDown = false;
-        });
-    } else {
-        currentColor = 'black';
-    }
+function handleMouseMove(event) {
+    // Generate a random color
+    const currentColor = generateRandomColor();
     
-})
-
-
+    // Check if the mouse button is pressed
+    if (mouseDown) {
+        // Change the background color of the hovered element to the random color
+        if (event.target.classList.contains('newDiv')) {
+            event.target.style.backgroundColor = currentColor;
+        }
+    }
+}
 
 
 
