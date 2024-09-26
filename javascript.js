@@ -1,123 +1,107 @@
-
-
-const box = document.querySelector('#box');
+const box = document.querySelector("#box");
 let mouseDown = false;
-const sizing = document.querySelector('#customRange2');
-const clear = document.getElementById('clear btn');
-const eraser = document.getElementById('btn-check-2-outlined');
+let rainbowModeActive = false;
+let currentColor = "black";
+
+const sizing = document.querySelector("#customRange");
+const clearBtn = document.getElementById("clear-btn");
+const eraserBtn = document.getElementById("eraser-btn");
 const colorPicker = document.getElementById("color-picker");
-const rainbowMode = document.getElementById("random-color btn");
-let currentColor = 'black';
+const rainbowModeBtn = document.getElementById("random-color-btn");
 
-// Event delegation 
+// Create grid dynamically
+function createGrid(size) {
+  box.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  box.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+  box.innerHTML = ""; // Clear previous divs
+  let totalDivs = size ** 2;
+  for (let i = 0; i < totalDivs; i++) {
+    const newDiv = document.createElement("div");
+    newDiv.className = "newDiv";
+    newDiv.style.border = "1px solid #e0e0e0";
+    box.appendChild(newDiv);
+  }
 
-function handleMouseDown(e) {
-    mouseDown = true;
-    if (e.target.classList.contains('newDiv')) {
-        e.target.style.backgroundColor = currentColor;
-    }
+  // Draw the GitHub logo after grid creation
+  drawGitHubLogo(size);
 }
 
-function handleMouseUp() {
-    mouseDown = false;
-}
+// Initial grid size and mouse size
+createGrid(32); // Start with a 32x32 grid
+sizing.value = 40; // Set mouse size slider to a larger default
 
-function handleMouseOver(e) {
-    if (mouseDown && e.target.classList.contains('newDiv')) {
-        e.target.style.backgroundColor = currentColor;
-    }
-}
-
-box.addEventListener('mousedown', handleMouseDown);
-box.addEventListener('mouseup', handleMouseUp);
-box.addEventListener('mouseover', handleMouseOver);
-
-// Create divs based on size
-function createDiv(size) {
-    box.style.gridTemplateColumns = `repeat(${size / 2}, 1fr)`;
-    box.style.gridTemplateRows = `repeat(${size / 2}, 1fr)`;
-    box.innerHTML = '';
-    let resized = size **2;
-    for (let i = 1; i <= resized; i++) {
-        const newDiv = document.createElement('div');
-        newDiv.className = 'newDiv';
-        box.appendChild(newDiv);
-    }
-}
-
-// sizing slider
-
-sizing.addEventListener('input', (e)=>{
-    createDiv(e.target.value)
+// Mouse events for painting
+box.addEventListener("mousedown", (e) => {
+  mouseDown = true;
+  if (e.target.classList.contains("newDiv")) {
+    e.target.style.backgroundColor = rainbowModeActive
+      ? generateRandomColor()
+      : currentColor;
+  }
 });
 
-// Clear btn
-clear.addEventListener('click', function() {
-    removeRainbowMode();
-    clearBox();
+box.addEventListener("mouseup", () => {
+  mouseDown = false;
 });
 
-function clearBox(){
-    const children = box.querySelectorAll('.newDiv');
-    children.forEach(child => {
-        child.style.backgroundColor = 'white';
-    });
-}
-
-// Eraser Btn
-
-// Event listener for the eraser button
-eraser.addEventListener('click', () => {
-    removeRainbowMode();
-    toggleEraserMode();
+box.addEventListener("mouseover", (e) => {
+  if (mouseDown && e.target.classList.contains("newDiv")) {
+    e.target.style.backgroundColor = rainbowModeActive
+      ? generateRandomColor()
+      : currentColor;
+  }
 });
 
-let eraserMode = false;
-
-function toggleEraserMode() {
-    eraserMode = !eraserMode;
-    currentColor = eraserMode ? 'white' : 'black';
-}
-
-
-// Select color
-colorPicker.addEventListener("input", function(e) { 
-    removeRainbowMode(); 
-    currentColor = e.target.value;
+// Sizing slider
+sizing.addEventListener("input", (e) => {
+  const gridSize = parseInt(e.target.value / 10); // Adjust grid size for better scaling
+  createGrid(gridSize);
 });
 
-// Rainbow mode
-
-// Function to handle rainbow mode
-rainbowMode.addEventListener('click', function(){
-    handleRainbowMode();
+// Clear button
+clearBtn.addEventListener("click", () => {
+  const children = box.querySelectorAll(".newDiv");
+  children.forEach((child) => {
+    child.style.backgroundColor = "white";
+  });
+  rainbowModeActive = false; // Disable rainbow mode after clearing
 });
 
-function handleRainbowMode() {
-    box.addEventListener('mousemove', handleMouseMove);
+// Eraser toggle
+eraserBtn.addEventListener("click", () => {
+  rainbowModeActive = false; // Disable rainbow mode when eraser is selected
+  currentColor = eraserBtn.checked ? "white" : colorPicker.value;
+});
+
+// Color picker
+colorPicker.addEventListener("input", (e) => {
+  rainbowModeActive = false; // Disable rainbow mode when a color is selected
+  currentColor = e.target.value;
+});
+
+// Rainbow mode toggle
+rainbowModeBtn.addEventListener("click", () => {
+  rainbowModeActive = true;
+});
+
+// Generate random color for rainbow mode
+function generateRandomColor() {
+  let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  return `#${randomColor.padStart(6, "0").toUpperCase()}`;
 }
 
-// Function to remove rainbow mode
-function removeRainbowMode() {
-    box.removeEventListener('mousemove', handleMouseMove);
+// Function to draw GitHub logo
+function drawGitHubLogo(size) {
+  const pixels = document.querySelectorAll(".newDiv");
+
+  // These are approximate positions of pixels to form the GitHub logo shape.
+  const logoPixels = [
+    
+    33, 34, 35, 66, 67, 68, 69, 70, 101, 102, 103, 135, 136, 137, 169, 170, 202,
+    203, 235, 236, 237, 269, 270, 302, 303, 335, 336, 337, 369, 370,
+  ];
+
+  logoPixels.forEach((index) => {
+    pixels[index].style.backgroundColor = "black";
+  });
 }
-
-
-function handleMouseMove(event) {
-    const currentColor = generateRandomColor();
-    if (mouseDown && event.target.classList.contains('newDiv')) {
-            event.target.style.backgroundColor = currentColor;
-    }
-}
-
-function generateRandomColor(){
-    let maxVal = 0xFFFFFF; 
-    let randomNumber = Math.random() * maxVal; 
-    randomNumber = Math.floor(randomNumber);
-    randomNumber = randomNumber.toString(16);
-    let randColor = randomNumber.padStart(6, 0);   
-    return `#${randColor.toUpperCase()}`
-}
-
-
-

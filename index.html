@@ -1,44 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
-    <Header><h1>Etch-a-sketch</h1></Header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etch-a-Sketch</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <header><h1>Etch-a-Sketch</h1></header>
     <main>
-        <div class="main">
-                <div class="buttons">
-                    <div id="color-picker">
-                        <label for="color-picker">Select a color:</label>
-                        <input id="color-picker" type="color">
-                    </div>
-                    
-                    <button id="random-color btn">Rainbow mode</button>
-                    <div>
-                        <input type="checkbox" class="btn-check" id="btn-check-2-outlined" checked autocomplete="off">
-                        <label class="btn btn-outline-secondary" for="btn-check-2-outlined">Eraser</label><br>
-                    </div>
-                    <button id="clear btn">Clear</button>
-                    <div id="sizing">
-                        <label for="customRange2" class="form-label">Mouse Size</label>
-                        <input type="range" class="form-range" min="4" max="150" id="customRange2" value="4" step="5">
-                    </div>
-                </div>
-                <div id="box">
-                    <div class="newDiv"></div>
-                    <div class="newDiv"></div>
-                    <div class="newDiv"></div>
-                    <div class="newDiv"></div>
-                </div>
+      <div class="main-container">
+        <div class="controls">
+          <div class="color-picker-container">
+            <label for="color-picker">Select a color:</label>
+            <input id="color-picker" type="color" />
+          </div>
+
+          <button id="random-color-btn" class="btn btn-primary mt-3">
+            Rainbow Mode
+          </button>
+
+          <input
+            type="checkbox"
+            class="btn-check"
+            id="eraser-btn"
+            autocomplete="off" />
+          <label class="btn btn-outline-secondary mt-3" for="eraser-btn"
+            >Eraser</label
+          >
+
+          <button id="clear-btn" class="btn btn-danger mt-3">Clear</button>
+
+          <div class="sizing mt-4">
+            <label for="customRange" class="form-label">Mouse Size</label>
+            <input
+              type="range"
+              class="form-range"
+              min="4"
+              max="150"
+              id="customRange"
+              value="4"
+              step="5" />
+          </div>
         </div>
+
+        <div id="box"></div>
+      </div>
     </main>
     <footer>
-        <p>Copyright © 2024 Claudio Leite </p><a href="https://github.com/claudiooleite"><img src="github-mark.png" width="26px" alt="github logo"></a>    
+      <p>Copyright © 2024 Claudio Leite</p>
+      <a href="https://github.com/claudiooleite">
+        <img src="github-mark.png" width="26px" alt="github logo" />
+      </a>
     </footer>
+
     <script src="javascript.js"></script>
-</body>
+  </body>
 </html>
